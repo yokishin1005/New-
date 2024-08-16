@@ -59,20 +59,18 @@ const TalkRouletteUI = ({
   };
 
   return (
-    <div className="p-4 sm:p-6 md:p-8 max-w-2xl mx-auto h-screen flex flex-col">
+    <div className="p-4 sm:p-6 md:p-8 max-w-2xl mx-auto min-h-screen flex flex-col">
       <div className="flex-grow flex flex-col space-y-6 sm:space-y-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
         <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
           <RouletteCharacter state={state} />
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-blue-600">トークルーレット</h1>
         </div>
-        <div className="flex-grow flex flex-col justify-center bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-inner border-2 border-blue-200">
-          <div className="flex items-center justify-center h-full">
-            <p className="text-xl sm:text-2xl md:text-3xl font-bold text-center text-gray-800 leading-relaxed">
-              {state === 'spinning' 
-                ? <span className="inline-block">{displayedTopic}</span>
-                : (currentTopic || 'スタートボタンを押してルーレットを回してください')}
-            </p>
-          </div>
+        <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-inner border-2 border-blue-200 h-64 flex items-center justify-center">
+          <p className="text-xl sm:text-2xl md:text-3xl font-bold text-center text-gray-800 leading-relaxed">
+            {state === 'spinning' 
+              ? <span className="inline-block">{displayedTopic}</span>
+              : (currentTopic || 'スタートボタンを押してルーレットを回してください')}
+          </p>
         </div>
         <div className="flex justify-center">
           {renderButtons()}
