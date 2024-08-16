@@ -25,31 +25,31 @@ const TalkRouletteUI = ({
       case 'idle':
       case 'finished':
         return (
-          <Button onClick={handleStart} className="px-4 sm:px-8 py-2 sm:py-3 text-base sm:text-lg bg-blue-500 hover:bg-blue-600 transition-colors duration-300 transform hover:scale-105">
+          <Button onClick={handleStart} className="px-4 sm:px-8 py-2 sm:py-3 text-base sm:text-lg bg-blue-500 hover:bg-blue-600 transition-colors duration-300">
             <Dices className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
             スタート
           </Button>
         );
       case 'spinning':
         return (
-          <Button onClick={handleStop} className="px-4 sm:px-8 py-2 sm:py-3 text-base sm:text-lg bg-red-500 hover:bg-red-600 transition-colors duration-300 transform hover:scale-105">
+          <Button onClick={handleStop} className="px-4 sm:px-8 py-2 sm:py-3 text-base sm:text-lg bg-red-500 hover:bg-red-600 transition-colors duration-300">
             ストップ
           </Button>
         );
       case 'stopped':
         return (
           <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
-            <Button onClick={handleStartTalk} className="px-4 sm:px-6 py-2 sm:py-3 text-base sm:text-lg bg-green-500 hover:bg-green-600 transition-colors duration-300 transform hover:scale-105">
+            <Button onClick={handleStartTalk} className="px-4 sm:px-6 py-2 sm:py-3 text-base sm:text-lg bg-green-500 hover:bg-green-600 transition-colors duration-300">
               トーク開始
             </Button>
-            <Button onClick={handleChangeTopic} className="px-4 sm:px-6 py-2 sm:py-3 text-base sm:text-lg bg-yellow-500 hover:bg-yellow-600 transition-colors duration-300 transform hover:scale-105">
+            <Button onClick={handleChangeTopic} className="px-4 sm:px-6 py-2 sm:py-3 text-base sm:text-lg bg-yellow-500 hover:bg-yellow-600 transition-colors duration-300">
               話題を変える
             </Button>
           </div>
         );
       case 'talking':
         return (
-          <Button onClick={handleChangeTopic} className="px-4 sm:px-8 py-2 sm:py-3 text-base sm:text-lg bg-yellow-500 hover:bg-yellow-600 transition-colors duration-300 transform hover:scale-105">
+          <Button onClick={handleChangeTopic} className="px-4 sm:px-8 py-2 sm:py-3 text-base sm:text-lg bg-yellow-500 hover:bg-yellow-600 transition-colors duration-300">
             話題を変える
           </Button>
         );
@@ -59,18 +59,20 @@ const TalkRouletteUI = ({
   };
 
   return (
-    <div className="p-4 sm:p-6 md:p-8 max-w-xl mx-auto">
-      <div className="space-y-6 sm:space-y-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
+    <div className="p-4 sm:p-6 md:p-8 max-w-2xl mx-auto h-screen flex flex-col">
+      <div className="flex-grow flex flex-col space-y-6 sm:space-y-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
         <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
           <RouletteCharacter state={state} />
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-blue-600">トークルーレット</h1>
         </div>
-        <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-inner border-2 border-blue-200">
-          <p className="text-xl sm:text-2xl md:text-3xl font-bold min-h-[4em] flex items-center justify-center text-center text-gray-800 leading-relaxed">
-            {state === 'spinning' 
-              ? <span className="animate-pulse">{displayedTopic}</span>
-              : (currentTopic || 'スタートボタンを押してルーレットを回してください')}
-          </p>
+        <div className="flex-grow flex flex-col justify-center bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-inner border-2 border-blue-200">
+          <div className="flex items-center justify-center h-full">
+            <p className="text-xl sm:text-2xl md:text-3xl font-bold text-center text-gray-800 leading-relaxed">
+              {state === 'spinning' 
+                ? <span className="inline-block">{displayedTopic}</span>
+                : (currentTopic || 'スタートボタンを押してルーレットを回してください')}
+            </p>
+          </div>
         </div>
         <div className="flex justify-center">
           {renderButtons()}
