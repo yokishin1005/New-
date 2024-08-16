@@ -2,35 +2,20 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { topics, getRandomTopic } from '../utils/topics';
 
 const TalkRouletteLogic = ({ renderUI }) => {
-  const [state, setState] = useState('idle'); // 'idle', 'spinning', 'stopped', 'talking', 'finished'
+  const [state, setState] = useState('idle');
   const [currentTopic, setCurrentTopic] = useState('');
   const [displayedTopic, setDisplayedTopic] = useState('');
   const [timeLeft, setTimeLeft] = useState(90);
   const [duration, setDuration] = useState(90);
-  const [topics, setTopics] = useState([]);
-
-  const fetchTopics = useCallback(async () => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/topics`);
-      const data = await response.json();
-      setTopics(data.topics);
-    } catch (error) {
-      console.error('Failed to fetch topics:', error);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchTopics();
-  }, [fetchTopics]);
 
   useEffect(() => {
     let interval;
     if (state === 'spinning') {
       interval = setInterval(() => {
-        const randomTopic = topics[Math.floor(Math.random() * topics.length)];
-        setDisplayedTopic(randomTopic || '');
+        setDisplayedTopic(getRandomTopic());
       }, 50);
     } else if (state === 'talking' && timeLeft > 0) {
       interval = setInterval(() => {
@@ -44,7 +29,7 @@ const TalkRouletteLogic = ({ renderUI }) => {
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [state, timeLeft, topics]);
+  }, [state, timeLeft]);
 
   const handleStart = () => {
     setState('spinning');
