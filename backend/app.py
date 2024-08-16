@@ -39,14 +39,17 @@ topics = [
 ]
 
 # ランダムなトピックを返すエンドポイント
-@app.route('/api/topic', methods=['GET'])
+@app.route('/.netlify/functions/api/topic', methods=['GET'])
 def get_random_topic():
     return jsonify({'topic': random.choice(topics)})
 
-# 全トピックを返すエンドポイント
-@app.route('/api/topics', methods=['GET'])
+@app.route('/.netlify/functions/api/topics', methods=['GET'])
 def get_all_topics():
     return jsonify({'topics': topics})
+
+@app.route('/.netlify/functions/api', methods=['GET'])
+def hello():
+    return jsonify(message="Hello from Flask!")
 
 if __name__ == '__main__':
     app.run(debug=True)
