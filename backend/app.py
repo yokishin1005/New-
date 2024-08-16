@@ -7,7 +7,7 @@ import os
 load_dotenv()  # .env ファイルから環境変数を読み込む
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": os.getenv("FRONTEND_URL", "http://localhost:3000")}})
+CORS(app)
 
 # トピックのリスト
 topics = [
