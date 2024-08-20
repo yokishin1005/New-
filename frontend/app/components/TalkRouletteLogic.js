@@ -2,7 +2,7 @@
 'use client'
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { topics, getRandomTopic } from '../utils/topics';
+import { topics as defaultTopics } from '../utils/topics';
 
 const TalkRouletteLogic = ({ renderUI }) => {
   const [state, setState] = useState('idle');
@@ -10,12 +10,27 @@ const TalkRouletteLogic = ({ renderUI }) => {
   const [displayedTopic, setDisplayedTopic] = useState('');
   const [timeLeft, setTimeLeft] = useState(90);
   const [duration, setDuration] = useState(90);
+  const [topics, setTopics] = useState(defaultTopics);
+
+  // localStorage からトピックを読み込む
+  useEffect(() => {
+    const savedTopics = localStorage.getItem('rouletteTopics');
+    if (savedTopics) {
+      setTopics(JSON.parse(savedTopics));
+    }
+  }, []);
+
+  // トピックが変更されたら localStorage に保存
+  useEffect(() => {
+    localStorage.setItem('rouletteTopics', JSON.stringify(topics));
+  }, [topics]);
 
   useEffect(() => {
     let interval;
     if (state === 'spinning') {
       interval = setInterval(() => {
-        setDisplayedTopic(getRandomTopic());
+        const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+        setDisplayedTopic(randomTopic || '');
       }, 50);
     } else if (state === 'talking' && timeLeft > 0) {
       interval = setInterval(() => {
@@ -29,7 +44,7 @@ const TalkRouletteLogic = ({ renderUI }) => {
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [state, timeLeft]);
+  }, [state, timeLeft, topics]);
 
   const handleStart = () => {
     setState('spinning');
@@ -64,18 +79,24 @@ const TalkRouletteLogic = ({ renderUI }) => {
     }
   };
 
+  const handleSaveTopics = (newTopics) => {
+    setTopics(newTopics);
+  };
+
   return renderUI({
     state,
     currentTopic,
     displayedTopic,
     timeLeft,
     duration,
+    topics,
     handleStart,
     handleStop,
     handleStartTalk,
     handleChangeTopic,
     handleReset,
     handleDurationChange,
+    handleSaveTopics,
   });
 };
 
